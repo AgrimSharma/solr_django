@@ -53,7 +53,7 @@ def search_document(request):
             response = json.loads(response)['response']
             if response['numFound'] > 0:
                 response = json.dumps(response)
-            return HttpResponse(response)
+            return HttpResponse(json.dumps(response))
 
         else:
             if fields:
@@ -75,7 +75,7 @@ def search_document(request):
                     response = json.dumps(response)
             except Exception:
                 response = dict(status="Try Again later")
-            return HttpResponse(response)
+            return HttpResponse(json.dumps(response))
     else:
         # cores = ['techproducts', 'births', "doctor"]
         return render(request, "search_document.html")
