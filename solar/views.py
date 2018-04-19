@@ -42,7 +42,19 @@ def search_document(request):
         # core = request.POST.get("core", "")
 
         if not query:
-            return HttpResponse(json.dumps(dict(status=400)))
+            url = "/solr/core/select?wt=json&indent=true&q=*:*"
+            connection = http.client.HTTPConnection("localhost", 8983)
+
+            headers = {'Content-type': 'application/json'}
+            connection.request('GET', url)
+
+            response = connection.getresponse()
+            response = response.read().decode()
+            response = json.loads(response)['response']
+            if response['numFound'] > 0:
+                response = json.dumps(response)
+            return HttpResponse(response)
+
         else:
             if fields:
                 url = "/solr/core/select?wt=json&indent=true&q={query}&fl={fields}".format(query=query,
