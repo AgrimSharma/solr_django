@@ -6,6 +6,19 @@ import json
 from django.views.decorators.csrf import csrf_exempt
 
 
+def fetch_data(url):
+    connection = http.client.HTTPConnection("localhost", 8983)
+
+    connection.request('GET', url)
+    headers = {'Content-type': 'application/json'}
+
+    response = connection.getresponse()
+    response = response.read().decode()
+    response = json.loads(response)['response']
+    if response['numFound'] > 0:
+        return response
+
+
 @csrf_exempt
 def add_document(request):
     if request.method == "POST":
@@ -77,3 +90,28 @@ def search_document(request):
             return HttpResponse(json.dumps(response))
     else:
         return render(request, "search_document.html")
+
+
+@csrf_exempt
+def search_city_document(request):
+    if request.method == "POST":
+        city = request.POST.get('city', '')
+
+        if not city:
+            return HttpResponse(json.dumps(dict(status=400)))
+
+        else:
+            university = fetch_data("/solr/university/select?wt=json&indent=true&q=city:{}*&fl=name,city".format(city[:3]))
+            propertys = fetch_data("/solr/property/select?wt=json&indent=true&q=city:{}*&fl=Address,city".format(city[:3]))
+
+            return HttpResponse(
+                json.dumps(
+                    dict(
+                        city=city,
+                        university=[dict(name=u['name'][0], city=u['city'][0]) for u in university['docs']],
+                        property=[dict(address=u['Address'][0], city=u['city'][0]) for u in propertys['docs']])))
+    else:
+        return render(request, "search_city_document.html")
+
+
+
