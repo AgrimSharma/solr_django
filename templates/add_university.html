@@ -6,21 +6,20 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js" integrity="sha384-lZmvU/TzxoIQIOD9yQDEpvxp6wEU32Fy0ckUgOH4EIlMOCdR823rg4+3gWRwnX1M" crossorigin="anonymous"></script>
-    <title>City Search</title>
+    <title>Add University</title>
 </head>
 <body class="container" style="padding-top:10px;">
-    <form method="post" action="{% url 'search_city_document' %}">
-           <label>City</label>&nbsp;&nbsp;<select name="city">
+    <form method="post" action="{% url 'add_university' %}">
+        <label>Address</label>&nbsp;&nbsp;<input type="text" id="name" name="name"/><br><br>
+         <label>City</label>&nbsp;&nbsp;<select name="city">
         {% for i in city %}
         <option value="{{i}}">{{i}}</option>
         {% endfor %}
     </select>
-
-        <br><br>
-        <input type="submit" class="btn btn-primary btn-sm" value="Search"/><br><br>
+        <input type="submit" class="btn btn-primary btn-sm" value="Add"/><br><br>
+        <a class="btn btn-primary btn-sm" href="{% url 'search_city_document' %}">Search</a>
         <a class="btn btn-primary btn-sm" href="{% url 'add_city' %}">Add City</a>
         <a class="btn btn-primary btn-sm" href="{% url 'add_property' %}">Add Property</a>
-        <a class="btn btn-primary btn-sm" href="{% url 'add_university' %}">Add University</a>
     </form>
 </body>
 </html>
