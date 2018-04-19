@@ -14,7 +14,7 @@ function eval_in_virtual_environment {
     export ALLOWED_HOSTS="localhost"
     export DEBUG="True"
     export SECRET_KEY="dl&)(n-z!^4*du2#jkg%2wfup8h-n_5in%*l7qx@4i(l#0skk4"
-    export PORT=8000
+    export PORT=8001
 
     pip install --upgrade pip
     pip install --upgrade wheel
