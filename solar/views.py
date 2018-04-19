@@ -9,7 +9,6 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def add_document(request):
     if request.method == "POST":
-        import pdb;pdb.set_trace()
         ids = request.POST.get('id','')
         title = request.POST.get("title", "")
         if not ids or not title:
@@ -53,7 +52,7 @@ def search_document(request):
             response = json.loads(response)['response']
             if response['numFound'] > 0:
                 response = json.dumps(response)
-            return HttpResponse(json.dumps(response))
+            return HttpResponse(response)
 
         else:
             if fields:
@@ -72,10 +71,9 @@ def search_document(request):
                 response = response.read().decode()
                 response = json.loads(response)['response']
                 if response['numFound'] > 0:
-                    response = json.dumps(response)
+                    response = response
             except Exception:
                 response = dict(status="Try Again later")
             return HttpResponse(json.dumps(response))
     else:
-        # cores = ['techproducts', 'births', "doctor"]
         return render(request, "search_document.html")
